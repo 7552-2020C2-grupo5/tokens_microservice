@@ -1,4 +1,9 @@
 """Helper functions for the project."""
+import uuid
+
+
+def uuid_str() -> str:
+    return str(uuid.uuid4())
 
 
 class FilterParam:

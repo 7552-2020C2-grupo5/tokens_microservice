@@ -11,7 +11,7 @@ logger.setLevel(logging.INFO)
 
 
 api = Api(prefix="/v1", version=__version__, validate=True)
-api.add_namespace(default_namespace, path='/hello')
+api.add_namespace(default_namespace, path='/tokens')
 
 
 @api.errorhandler

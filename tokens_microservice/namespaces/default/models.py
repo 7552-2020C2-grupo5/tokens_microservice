@@ -1,18 +1,48 @@
 """Default namespace models module."""
 
-from flask_restx import Model, fields, reqparse
+from flask_restx import Model, fields
 
-hello_model = Model(
-    "Hello model",
-    {"Say": fields.String(required=True, description="The message said.")},
+from tokens_microservice.constants import Services
+
+register_model = Model(
+    "New server",
+    {
+        "server_name": fields.String(
+            required=True,
+            description="The service to register",
+            enum=[e.value for e in Services],
+        )
+    },
 )
 
-echo_model = Model(
-    "Echo model",
-    {"Echo": fields.String(required=True, description="The echo message.")},
+created_model = Model(
+    "Created server",
+    {
+        "server_name": fields.String(
+            required=True,
+            description="The service to register",
+            enum=[e.value for e in Services],
+        ),
+        "token": fields.String(description="The token"),
+    },
 )
 
-echo_parser = reqparse.RequestParser()
-echo_parser.add_argument(
-    "message", type=str, location="json", help="Message to be echoed."
+token_model = Model(
+    "Server token",
+    {
+        "id": fields.Integer(description="Id", required=True),
+        "server_name": fields.String(
+            required=True,
+            description="The service to register",
+            enum=[e.value for e in Services],
+        ),
+        "blocked": fields.Boolean(description="Is the token blocked?"),
+        "created_at": fields.DateTime(description="Creation date"),
+        "blocked_at": fields.DateTime(description="Blocking date"),
+    },
+)
+
+verification_model = Model(
+    "Server token verification",
+    {"token": fields.String(description="The token to validate")},
 )
