@@ -1,0 +1,30 @@
+version: '3.7'
+services:
+    tokens_microservice_postgres:
+        container_name: tokens_microservice_postgres 
+        image: postgres:11.9
+        environment:
+          - POSTGRES_USER=tokens_microservice
+          - POSTGRES_PASSWORD=tokens_microservice
+          - POSTGRES_DB=tokens_microservice
+          - PGDATA=/var/lib/postgresql/data/pgdata
+        ports:
+          - 54321:5432
+        volumes:
+          - /var/lib/postgresql/data/pgdata
+        logging:
+            options:
+                max-size: 10m
+                max-file: "3"
+    tokens_microservice_api:
+      container_name: tokens_microservice_api
+      depends_on:
+        - tokens_microservice_postgres
+      build:
+        context: ../
+        dockerfile: Dockerfile
+      ports:
+        - "5000:5000"
+      environment:
+        - DATABASE_URL=postgres://tokens_microservice:tokens_microservice@tokens_microservice_postgres/tokens_microservice
+      entrypoint: /app/docker-compose/api-entrypoint.sh
