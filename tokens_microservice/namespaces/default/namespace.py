@@ -66,6 +66,7 @@ class ServerTokenVerification(Resource):
     @ns.response(400, "Invalid token")
     @ns.expect(verification_model)
     def post(self):
+        """Create a verification request."""
         try:
             validate_server_token(ns.payload.get("token"))
             return {"message": "valid token"}, 200
