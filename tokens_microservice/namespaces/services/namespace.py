@@ -10,7 +10,7 @@ ns = Namespace("Services", description="Services operations.")
 ns.models[services_model.name] = services_model
 
 
-@ns.route('/services')
+@ns.route('')
 class ServiceDiscovery(Resource):
     @ns.marshal_with(services_model)
     def get(self):
