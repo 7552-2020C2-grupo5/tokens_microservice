@@ -1,6 +1,5 @@
 """Sample test suite."""
 
-import json
 import logging
 import tempfile
 
@@ -30,15 +29,3 @@ def client():
 def test_root(client):
     response = client.get("/")
     assert response._status_code == 200
-
-
-def test_hello(client):
-    response = client.get("/v1/hello")
-    assert response._status_code == 200
-    assert json.loads(response.data).get("Say") == "Hello"
-
-
-def test_echo(client):
-    response = client.post("/v1/hello", json={"message": "Say hi"})
-    assert response._status_code == 200
-    assert json.loads(response.data).get("Echo") == "Say hi"

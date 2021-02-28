@@ -3,10 +3,10 @@ import logging
 from pathlib import Path
 
 from flask import Flask
+from flask_cors import CORS
 from flask_migrate import Migrate
 from werkzeug.middleware.proxy_fix import ProxyFix
 
-from flask_cors import CORS
 from tokens_microservice.api import api
 from tokens_microservice.cfg import config
 from tokens_microservice.models import db

@@ -1,7 +1,7 @@
 version: '3.7'
 services:
     tokens_microservice_postgres:
-        container_name: tokens_microservice_postgres 
+        container_name: tokens_microservice_postgres
         image: postgres:11.9
         environment:
           - POSTGRES_USER=tokens_microservice
