@@ -36,6 +36,7 @@ class TokenResource(Resource):
     @ns.expect(register_model)
     @ns.response(400, "Server already registered")
     @ns.response(200, "Server registered", model=created_model)
+    @ns.response(500, "Internal error")
     def post(self):
         """Create a new server token."""
         data = ns.payload
@@ -43,6 +44,9 @@ class TokenResource(Resource):
             return ns.marshal(create_server_token(**data), created_model)
         except ServerAlreadyRegistered:
             return {"message": "Server is already registered"}, 400
+        except Exception as e:  # pylint:disable=broad-except
+            ns.logger.error("Error deleting", exc_info=e)
+            return {"message": "Error deleting"}, 500
 
 
 @ns.route('/<int:server_token_id>')
@@ -50,6 +54,7 @@ class ServerTokenResource(Resource):
     @ns.doc('block_token')
     @ns.response(200, "Token blocked")
     @ns.response(404, "Token does not exist")
+    @ns.response(500, "Internal error")
     def delete(self, server_token_id):
         """Block server token."""
         try:
@@ -57,6 +62,9 @@ class ServerTokenResource(Resource):
             return {"message": "Token blocked"}, 200
         except ServerTokenDoesNotExist:
             return {"message": "Token does not exist"}, 404
+        except Exception as e:  # pylint:disable=broad-except
+            ns.logger.error("Error deleting", exc_info=e)
+            return {"message": "Error deleting"}, 500
 
 
 @ns.route('/verification')
