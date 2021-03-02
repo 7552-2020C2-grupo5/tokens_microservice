@@ -15,6 +15,7 @@ from .controller import (
     validate_server_token,
 )
 from .models import created_model, register_model, token_model, verification_model
+from .parsers import verify_parser
 
 ns = Namespace("Tokens", description="Server tokens operations.")
 
@@ -72,11 +73,18 @@ class ServerTokenVerification(Resource):
     @ns.doc('verify_token')
     @ns.response(200, "Valid token")
     @ns.response(400, "Invalid token")
-    @ns.expect(verification_model)
+    @ns.response(403, "Unauthorized")
+    @ns.expect(verify_parser)
     def post(self):
         """Create a verification request."""
+        args = verify_parser.parse_args()
         try:
-            validate_server_token(ns.payload.get("token"))
-            return {"message": "valid token"}, 200
+            validate_server_token(args.BookBNB_Authorization)
         except InvalidServerToken:
-            return {"message": "invalid token"}, 400
+            return {"message": "Unauthorized"}, 403
+
+        try:
+            validate_server_token(args.token)
+        except InvalidServerToken:
+            return {"message": "Invalid token"}, 400
+        return {"message": "Token is valid."}

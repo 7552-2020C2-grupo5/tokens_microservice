@@ -11,12 +11,11 @@ def uuid_str() -> str:
     return str(uuid.uuid4())
 
 
-def validate_admin_request(request):
-    bookbnb_token = request.headers.get("Authorization")
+def validate_admin_request(admin_token):
     r = requests.get(
         ADMIN_VALIDATION_URL,
         headers={
-            "Authorization": bookbnb_token,
+            "Authorization": admin_token,
             "BookBNB-Authorization": config.self_token(default=SELF_TOKEN),
         },
     )
