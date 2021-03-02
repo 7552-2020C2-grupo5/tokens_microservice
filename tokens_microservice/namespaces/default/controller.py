@@ -4,7 +4,8 @@ from datetime import datetime as dt
 
 import requests
 
-from tokens_microservice.constants import SERVICES_REGISTER, Services
+from tokens_microservice.cfg import config
+from tokens_microservice.constants import SELF_TOKEN, SERVICES_REGISTER, Services
 from tokens_microservice.exceptions import InvalidServerToken, ServerTokenDoesNotExist
 from tokens_microservice.models import ServerToken, db
 
@@ -18,7 +19,11 @@ def create_server_token(server_name):
     db.session.add(new_server_token)
     db.session.commit()
     url = SERVICES_REGISTER[Services(server_name)]
-    r = requests.post(url, json={"token": new_server_token.token})
+    r = requests.post(
+        url,
+        json={"token": new_server_token.token},
+        headers={"BookBNB-Authorization": config.self_token(default=SELF_TOKEN)},
+    )
     r.raise_for_status()
     return new_server_token
 
@@ -32,11 +37,15 @@ def delete_server_token(server_token_id):
     db.session.merge(server_token)
     db.session.commit()
     url = SERVICES_REGISTER[Services(server_token.server_name)]
-    r = requests.delete(url)
+    r = requests.delete(
+        url, headers={"BookBNB-Authorization": config.self_token(default=SELF_TOKEN)}
+    )
     r.raise_for_status()
 
 
 def validate_server_token(server_token):
+    if server_token == config.self_token(default=SELF_TOKEN):
+        return
     server_token = ServerToken.query.filter(
         (ServerToken.token == server_token)
         & (ServerToken.blocked == False)  # noqa: E712
