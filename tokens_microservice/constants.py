@@ -15,13 +15,15 @@ class Services(enum.Enum):
     Recommendations = "recommendations"
 
 
-DEFAULT_BOOKINGS_URL = "https://bookbnb5-bookings.herokuapp.com/token"
-DEFAULT_MIDDLEWARE_URL = "https://bookbnb5-middleware.herokuapp.com/token"
-DEFAULT_NOTIFICATIONS_URL = "https://bookbnb5-notifications.herokuapp.com/token"
-DEFAULT_PUBLICATIONS_URL = "https://bookbnb5-publications.herokuapp.com/token"
-DEFAULT_REVIEWS_URL = "https://bookbnb5-reviews.herokuapp.com/token"
-DEFAULT_USERS_URL = "https://bookbnb5-users-microservice.herokuapp.com/token"
-DEFAULT_RECOMMENDATIONS_URL = "https://recommendations-microservice.herokuapp.com/token"
+DEFAULT_BOOKINGS_URL = "https://bookbnb5-bookings.herokuapp.com/v1/token"
+DEFAULT_MIDDLEWARE_URL = "https://bookbnb5-middleware.herokuapp.com/v1/token"
+DEFAULT_NOTIFICATIONS_URL = "https://bookbnb5-notifications.herokuapp.com/v1/token"
+DEFAULT_PUBLICATIONS_URL = "https://bookbnb5-publications.herokuapp.com/v1/token"
+DEFAULT_REVIEWS_URL = "https://bookbnb5-reviews.herokuapp.com/v1/token"
+DEFAULT_USERS_URL = "https://bookbnb5-users-microservice.herokuapp.com/v1/token"
+DEFAULT_RECOMMENDATIONS_URL = (
+    "https://recommendations-microservice.herokuapp.com/v1/token"
+)
 
 
 SERVICES_REGISTER = {
