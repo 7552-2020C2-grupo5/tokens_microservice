@@ -2,6 +2,9 @@
 
 from datetime import datetime as dt
 
+import requests
+
+from tokens_microservice.constants import SERVICES_REGISTER, Services
 from tokens_microservice.exceptions import InvalidServerToken, ServerTokenDoesNotExist
 from tokens_microservice.models import ServerToken, db
 
@@ -14,6 +17,9 @@ def create_server_token(server_name):
     new_server_token = ServerToken(server_name=server_name)
     db.session.add(new_server_token)
     db.session.commit()
+    url = SERVICES_REGISTER[Services(server_name)]
+    r = requests.post(url, json={"token": new_server_token.token})
+    r.raise_for_status()
     return new_server_token
 
 
@@ -25,6 +31,9 @@ def delete_server_token(server_token_id):
     server_token.blocked_at = dt.utcnow()
     db.session.merge(server_token)
     db.session.commit()
+    url = SERVICES_REGISTER[Services(server_token.server_name)]
+    r = requests.delete(url)
+    r.raise_for_status()
 
 
 def validate_server_token(server_token):
