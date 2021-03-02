@@ -1,9 +1,25 @@
 """Helper functions for the project."""
 import uuid
 
+import requests
+
+from tokens_microservice.cfg import config
+from tokens_microservice.constants import ADMIN_VALIDATION_URL, SELF_TOKEN
+
 
 def uuid_str() -> str:
     return str(uuid.uuid4())
+
+
+def validate_admin_request(admin_token):
+    r = requests.get(
+        ADMIN_VALIDATION_URL,
+        headers={
+            "Authorization": admin_token,
+            "BookBNB-Authorization": config.self_token(default=SELF_TOKEN),
+        },
+    )
+    return r.ok
 
 
 class FilterParam:

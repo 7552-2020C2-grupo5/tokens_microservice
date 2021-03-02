@@ -35,3 +35,9 @@ SERVICES_REGISTER = {
     Services.Users: config.bookings.url(default=DEFAULT_USERS_URL),
     Services.Recommendations: config.bookings.url(default=DEFAULT_RECOMMENDATIONS_URL),
 }
+
+SELF_TOKEN = "589adbb5-900c-4dc8-9b84-7ac359af7114"
+
+ADMIN_VALIDATION_URL = (
+    "https://bookbnb5-users-microservice.herokuapp.com/v1/admins/validate_token"
+)
