@@ -24,7 +24,7 @@ register_parser.add_argument(
 
 verify_parser = reqparse.RequestParser()
 verify_parser.add_argument(
-    'BookBNB_Authorization',
+    'BookBNBAuthorization',
     type=str,
     location='headers',
     required=True,

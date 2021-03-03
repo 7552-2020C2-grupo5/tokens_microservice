@@ -89,7 +89,7 @@ class ServerTokenVerification(Resource):
         """Create a verification request."""
         args = verify_parser.parse_args()
         try:
-            validate_server_token(args.BookBNB_Authorization)
+            validate_server_token(args.BookBNBAuthorization)
         except InvalidServerToken:
             return {"message": "Unauthorized"}, 403
 
