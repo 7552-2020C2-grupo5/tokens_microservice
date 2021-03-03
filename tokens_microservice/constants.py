@@ -16,7 +16,7 @@ class Services(enum.Enum):
 
 
 DEFAULT_BOOKINGS_URL = "https://bookbnb5-bookings.herokuapp.com/v1/token"
-DEFAULT_MIDDLEWARE_URL = "https://bookbnb5-middleware.herokuapp.com/v1/token"
+DEFAULT_MIDDLEWARE_URL = "https://bookbnb5-middleware.herokuapp.com/bookbnb/token"
 DEFAULT_NOTIFICATIONS_URL = "https://bookbnb5-notifications.herokuapp.com/v1/token"
 DEFAULT_PUBLICATIONS_URL = "https://bookbnb5-publications.herokuapp.com/v1/token"
 DEFAULT_REVIEWS_URL = "https://bookbnb5-reviews.herokuapp.com/v1/token"
