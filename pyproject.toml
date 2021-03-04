@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "tokens_microservice"
-version = "3.0.2"
+version = "3.0.3"
 description = "Validate servers."
 authors = ["75.52 - 2020C2 - G5 <imermet@fi.uba.ar>"]
 
