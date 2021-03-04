@@ -91,18 +91,27 @@ class ServerTokenVerification(Resource):
         """Create a verification request."""
         args = verify_parser.parse_args()
 
+        ns.logger.info(
+            f"Verifying server token: {args.token} for requester {args.BookBNBAuthorization}"
+        )
+
         # validate requester is ok
         if args.token == config.self_token(default=SELF_TOKEN):
+            ns.logger.info("Token is self's, is ok")
             return {"message": "Token is valid"}, 200
 
         try:
+            ns.logger.info("Trying to validate requester token")
             validate_server_token(args.BookBNBAuthorization)
         except InvalidServerToken:
+            ns.logger.error("Requester token is invalid, could not be validated")
             return {"message": "Unauthorized"}, 403
 
         # validate token to be validated by requester
         try:
+            ns.logger.info("Trying to validate server token")
             validate_server_token(args.token)
         except InvalidServerToken:
+            ns.logger.error("Server token is invalid, could not be validated")
             return {"message": "Invalid token"}, 400
         return {"message": "Token is valid."}, 200

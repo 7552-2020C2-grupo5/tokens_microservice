@@ -22,7 +22,9 @@ class ServiceDiscovery(Resource):
     @ns.response(200, "Ok")
     def get(self):
         """Get all services."""
-        if not validate_admin_request(admin_parser.parse_args().get('Authorization')):
+        args = admin_parser.parse_args()
+        ns.logger.info(f"Trying to validate jwt {args.Authorization}")
+        if not validate_admin_request(args.Authorization):
             ns.logger.error(f"Could not validate admin: {request.headers}")
             return {"message": "Unauthorized: could not validate admin token"}, 403
         return {"services": get_all_services()}, 200
