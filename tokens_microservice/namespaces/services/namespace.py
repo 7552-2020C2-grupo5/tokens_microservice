@@ -1,6 +1,5 @@
 """Services namespace module."""
 
-from flask import request
 from flask_restx import Namespace, Resource
 
 from tokens_microservice.utils import validate_admin_request
@@ -22,9 +21,6 @@ class ServiceDiscovery(Resource):
     @ns.response(200, "Ok")
     def get(self):
         """Get all services."""
-        args = admin_parser.parse_args()
-        ns.logger.info(f"Trying to validate jwt {args.Authorization}")
-        if not validate_admin_request(args.Authorization):
-            ns.logger.error(f"Could not validate admin: {request.headers}")
-            return {"message": "Unauthorized: could not validate admin token"}, 403
-        return {"services": get_all_services()}, 200
+        if not validate_admin_request(admin_parser.parse_args().get('Authorization')):
+            return {"message": "Unauthorized"}, 403
+        return {"services": get_all_services()}

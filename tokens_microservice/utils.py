@@ -12,14 +12,11 @@ def uuid_str() -> str:
 
 
 def validate_admin_request(admin_token):
-    print(
-        f"validating {admin_token} against {config.admin_validation_url(default=ADMIN_VALIDATION_URL)}"
-    )
     r = requests.get(
-        config.admin_validation_url(default=ADMIN_VALIDATION_URL),
+        ADMIN_VALIDATION_URL,
         headers={
             "Authorization": admin_token,
-            "BookBNBAuthorization": config.self_token(default=SELF_TOKEN),
+            "BookBNB-Authorization": config.self_token(default=SELF_TOKEN),
         },
     )
     return r.ok
