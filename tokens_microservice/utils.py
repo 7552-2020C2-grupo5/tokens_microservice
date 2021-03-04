@@ -16,7 +16,7 @@ def validate_admin_request(admin_token):
         ADMIN_VALIDATION_URL,
         headers={
             "Authorization": admin_token,
-            "BookBNB-Authorization": config.self_token(default=SELF_TOKEN),
+            "BookBNBAuthorization": config.self_token(default=SELF_TOKEN),
         },
     )
     return r.ok

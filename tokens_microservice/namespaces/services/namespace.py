@@ -1,5 +1,6 @@
 """Services namespace module."""
 
+from flask import request
 from flask_restx import Namespace, Resource
 
 from tokens_microservice.utils import validate_admin_request
@@ -22,5 +23,6 @@ class ServiceDiscovery(Resource):
     def get(self):
         """Get all services."""
         if not validate_admin_request(admin_parser.parse_args().get('Authorization')):
+            ns.logger.error(f"Could not validate admin: {request.headers}")
             return {"message": "Unauthorized"}, 403
         return {"services": get_all_services()}
