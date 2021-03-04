@@ -21,6 +21,7 @@ class ServiceDiscovery(Resource):
     @ns.response(200, "Ok")
     def get(self):
         """Get all services."""
-        if not validate_admin_request(admin_parser.parse_args().get('Authorization')):
+        args = admin_parser.parse_args()
+        if not validate_admin_request(args.Authorization):
             return {"message": "Unauthorized"}, 403
-        return {"services": get_all_services()}
+        return {"services": get_all_services()}, 200

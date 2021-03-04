@@ -2,6 +2,8 @@
 
 from flask_restx import Namespace, Resource
 
+from tokens_microservice.cfg import config
+from tokens_microservice.constants import SELF_TOKEN
 from tokens_microservice.exceptions import (
     InvalidServerToken,
     ServerAlreadyRegistered,
@@ -88,6 +90,10 @@ class ServerTokenVerification(Resource):
     def post(self):
         """Create a verification request."""
         args = verify_parser.parse_args()
+
+        if args.token == config.self_token(default=SELF_TOKEN):
+            return {"message": "Token is valid"}, 200
+
         try:
             validate_server_token(args.BookBNBAuthorization)
         except InvalidServerToken:
@@ -97,4 +103,4 @@ class ServerTokenVerification(Resource):
             validate_server_token(args.token)
         except InvalidServerToken:
             return {"message": "Invalid token"}, 400
-        return {"message": "Token is valid."}
+        return {"message": "Token is valid."}, 200
