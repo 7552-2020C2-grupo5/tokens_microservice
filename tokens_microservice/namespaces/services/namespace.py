@@ -24,5 +24,5 @@ class ServiceDiscovery(Resource):
         """Get all services."""
         if not validate_admin_request(admin_parser.parse_args().get('Authorization')):
             ns.logger.error(f"Could not validate admin: {request.headers}")
-            return {"message": "Unauthorized"}, 403
-        return {"services": get_all_services()}
+            return {"message": "Unauthorized: could not validate admin token"}, 403
+        return {"services": get_all_services()}, 200
