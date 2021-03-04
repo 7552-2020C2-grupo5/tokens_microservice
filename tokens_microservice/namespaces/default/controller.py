@@ -22,7 +22,7 @@ def create_server_token(server_name):
     r = requests.post(
         url,
         json={"token": new_server_token.token},
-        headers={"BookBNB-Authorization": config.self_token(default=SELF_TOKEN)},
+        headers={"BookBNBAuthorization": config.self_token(default=SELF_TOKEN)},
     )
     r.raise_for_status()
     return new_server_token
@@ -38,7 +38,7 @@ def delete_server_token(server_token_id):
     db.session.commit()
     url = SERVICES_REGISTER[Services(server_token.server_name)]
     r = requests.delete(
-        url, headers={"BookBNB-Authorization": config.self_token(default=SELF_TOKEN)}
+        url, headers={"BookBNBAuthorization": config.self_token(default=SELF_TOKEN)}
     )
     r.raise_for_status()
 
